@@ -157,7 +157,7 @@
     __block NSInteger leastIndex = 0;
     [self.columnHeights enumerateObjectsUsingBlock:^(NSNumber *number, NSUInteger idx, BOOL *stop) {
         
-        if(number < self.columnHeights[leastIndex]){
+        if([number floatValue] < [self.columnHeights[leastIndex] floatValue]){
             leastIndex = idx;
         }
     }];
@@ -177,7 +177,7 @@
     __block NSInteger mostIndex = 0;
     [self.columnHeights enumerateObjectsUsingBlock:^(NSNumber *number, NSUInteger idx, BOOL *stop) {
         
-        if(number > self.columnHeights[mostIndex]){
+        if([number floatValue] > [self.columnHeights[mostIndex] floatValue]){
             mostIndex = idx;
         }
     }];

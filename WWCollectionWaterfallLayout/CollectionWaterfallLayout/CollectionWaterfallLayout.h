@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kSupplementaryViewKindHeader;
+
 @protocol CollectionWaterfallLayoutProtocol;
 @interface CollectionWaterfallLayout : UICollectionViewLayout
 
@@ -24,5 +26,7 @@
 @protocol CollectionWaterfallLayoutProtocol <NSObject>
 
 - (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForSupplementaryViewAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

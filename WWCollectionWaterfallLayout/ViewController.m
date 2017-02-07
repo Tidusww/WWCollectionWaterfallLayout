@@ -16,7 +16,9 @@
 #define ScreenWidth ([[UIScreen mainScreen] bounds].size.width)
 #define ScreenHeight ([[UIScreen mainScreen] bounds].size.height)
 
-static NSString *kCollectionViewCellReusableID = @"kCollectionViewCellReusableID";
+static NSString *const kCollectionViewItemReusableID = @"kCollectionViewItemReusableID";
+static NSString *const kCollectionViewHeaderReusableID = @"kCollectionViewHeaderReusableID";
+
 
 @interface ViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, CollectionWaterfallLayoutProtocol>
 
@@ -94,7 +96,9 @@ static NSString *kCollectionViewCellReusableID = @"kCollectionViewCellReusableID
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = [UIColor clearColor];
         
-        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCollectionViewCellReusableID];
+        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:kCollectionViewItemReusableID];
+        UINib *headerViewNib = [UINib nibWithNibName:@"WFHeaderView" bundle:nil];
+        [_collectionView registerNib:headerViewNib forSupplementaryViewOfKind:kSupplementaryViewKindHeader withReuseIdentifier:kCollectionViewHeaderReusableID];
     }
     
     
@@ -113,7 +117,7 @@ static NSString *kCollectionViewCellReusableID = @"kCollectionViewCellReusableID
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellReusableID forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewItemReusableID forIndexPath:indexPath];
     
     if(!cell){
         cell = [[UICollectionViewCell alloc] init];
@@ -129,6 +133,16 @@ static NSString *kCollectionViewCellReusableID = @"kCollectionViewCellReusableID
     
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    if([kind isEqualToString:kSupplementaryViewKindHeader]){
+        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kCollectionViewHeaderReusableID forIndexPath:indexPath];
+        
+        return headerView;
+    }
+    return nil;
+}
+
 #pragma mark - CollectionWaterfallLayoutProtocol
 - (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -137,4 +151,11 @@ static NSString *kCollectionViewCellReusableID = @"kCollectionViewCellReusableID
     return cellHeight;
 }
 
+- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForSupplementaryViewAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 0 && indexPath.row == 0){
+        return 300;
+    }
+    return 0;
+}
 @end

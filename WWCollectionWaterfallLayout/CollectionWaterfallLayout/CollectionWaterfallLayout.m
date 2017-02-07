@@ -8,6 +8,9 @@
 
 #import "CollectionWaterfallLayout.h"
 
+NSString *const kSupplementaryViewKindHeader = @"Header";
+CGFloat const kSupplementaryViewKindHeaderPinnedHeight = 44.f;
+
 @interface CollectionWaterfallLayout()
 
 /** 保存所有Item的LayoutAttributes */
@@ -36,6 +39,7 @@
     return self;
 }
 
+#pragma mark - UICollectionViewLayout (UISubclassingHooks)
 /**
  *  1、
  *  collectionView初次显示或者调用invalidateLayout方法后会调用此方法
@@ -89,26 +93,41 @@
  */
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
 {
-    NSMutableArray *attributesArray = [NSMutableArray array];
-    
-    //计算rect中出现的indexPaths
-    NSArray<NSIndexPath *> *indexPaths = [self indexPathForRect:rect];
+    NSMutableArray *attributesArray = self.attributesArray;
+    NSArray<NSIndexPath *> *indexPaths;
+    //1、计算rect中出现的items
+    indexPaths = [self indexPathForItemsInRect:rect];
     for(NSIndexPath *indexPath in indexPaths){
         //计算对应的LayoutAttributes
         UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForItemAtIndexPath:indexPath];
         [attributesArray addObject:attributes];
     }
     
-    if(attributesArray.count == 0){
-        return self.attributesArray;
-    }else{
-        return attributesArray;
+    //2、计算rect中出现的SupplementaryViews
+    //这里只计算了kSupplementaryViewKindHeader
+    indexPaths = [self indexPathForSupplementaryViewsOfKind:kSupplementaryViewKindHeader InRect:rect];
+    for(NSIndexPath *indexPath in indexPaths){
+        //计算对应的LayoutAttributes
+        UICollectionViewLayoutAttributes *attributes = [self layoutAttributesForSupplementaryViewOfKind:kSupplementaryViewKindHeader atIndexPath:indexPath];
+        [attributesArray addObject:attributes];
     }
     
+    return attributesArray;
 }
 
 /**
- *  4、
+ *  每当offset改变时，是否需要重新布局，newBounds为offset改变后的rect
+ *  瀑布流中不需要，因为滑动时，cell的布局不会随offset而改变
+ *  如果需要实现悬浮Header，需要改为YES
+ */
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+    //return [super shouldInvalidateLayoutForBoundsChange:newBounds];
+    return YES;
+}
+
+#pragma mark - 计算单个indexPath的LayoutAttributes
+/**
  *  根据indexPath，计算对应的LayoutAttributes
  */
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -135,16 +154,30 @@
 }
 
 /**
- *  newBounds是个offset，当offset改变时，是否需要重新布局
- *  瀑布流中不需要，因为滑动时，cell的布局不会随offset而改变
+ *  根据kind、indexPath，计算对应的LayoutAttributes
  */
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+- (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
 {
-    return [super shouldInvalidateLayoutForBoundsChange:newBounds];
+    UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
+    
+    //计算LayoutAttributes
+    if([elementKind isEqualToString:kSupplementaryViewKindHeader]){
+        CGFloat width = self.collectionView.bounds.size.width;
+        CGFloat height = [self.delegate collectionViewLayout:self heightForSupplementaryViewAtIndexPath:indexPath];
+        CGFloat x = 0;
+        //根据offset计算kSupplementaryViewKindHeader的y
+        //y = offset.y-(header高度-固定高度)
+        CGFloat offsetY = self.collectionView.contentOffset.y;
+        CGFloat y = MAX(0,
+                        offsetY-(height-kSupplementaryViewKindHeaderPinnedHeight));
+        attributes.frame = CGRectMake(x, y, width, height);
+        attributes.zIndex = 1024;
+    }
+    return attributes;
 }
 
 
-#pragma mark - private
+#pragma mark - helpers
 /**
  *  找到高度最小的那一列的下标
  */
@@ -185,12 +218,35 @@
     return mostIndex;
 }
 
+#pragma mark - 根据rect返回应该出现的Items
 /**
  *  计算目标rect中含有的item
  */
-- (NSMutableArray<NSIndexPath *> *)indexPathForRect:(CGRect)rect
+- (NSMutableArray<NSIndexPath *> *)indexPathForItemsInRect:(CGRect)rect
 {
     NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
+    
+    
+    return indexPaths;
+}
+
+/**
+ *  计算目标rect中含有的某类SupplementaryView
+ */
+- (NSMutableArray<NSIndexPath *> *)indexPathForSupplementaryViewsOfKind:(NSString *)kind InRect:(CGRect)rect
+{
+    NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
+    if([kind isEqualToString:kSupplementaryViewKindHeader]){
+        //在这个瀑布流自定义布局中，只有一个位于列表顶部的SupplementaryView
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        
+        //如果当前区域可以看到SupplementaryView，则返回
+        //CGFloat height = [self.delegate collectionViewLayout:self heightForSupplementaryViewAtIndexPath:indexPath];
+        //if(CGRectGetMinY(rect) <= height + _insets.top){
+        //Header默认总是需要显示
+        [indexPaths addObject:indexPath];
+        //}
+    }
     
     
     return indexPaths;

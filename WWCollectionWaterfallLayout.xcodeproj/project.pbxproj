@@ -15,6 +15,8 @@
 		351D88D11E288490004FEBD6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 351D88CF1E288490004FEBD6 /* LaunchScreen.storyboard */; };
 		351D88DC1E288490004FEBD6 /* WWCollectionWaterfallLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351D88DB1E288490004FEBD6 /* WWCollectionWaterfallLayoutTests.m */; };
 		351D88E71E288490004FEBD6 /* WWCollectionWaterfallLayoutUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351D88E61E288490004FEBD6 /* WWCollectionWaterfallLayoutUITests.m */; };
+		355182821E49CEE7007F4477 /* WFHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3551827E1E49CEE7007F4477 /* WFHeaderView.m */; };
+		355182831E49CEE7007F4477 /* WFHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3551827F1E49CEE7007F4477 /* WFHeaderView.xib */; };
 		357505881E288580000E62EA /* CollectionWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 357505871E288580000E62EA /* CollectionWaterfallLayout.m */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +54,9 @@
 		351D88E21E288490004FEBD6 /* WWCollectionWaterfallLayoutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WWCollectionWaterfallLayoutUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		351D88E61E288490004FEBD6 /* WWCollectionWaterfallLayoutUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWCollectionWaterfallLayoutUITests.m; sourceTree = "<group>"; };
 		351D88E81E288490004FEBD6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3551827D1E49CEE7007F4477 /* WFHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WFHeaderView.h; sourceTree = "<group>"; };
+		3551827E1E49CEE7007F4477 /* WFHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WFHeaderView.m; sourceTree = "<group>"; };
+		3551827F1E49CEE7007F4477 /* WFHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WFHeaderView.xib; sourceTree = "<group>"; };
 		357505861E288580000E62EA /* CollectionWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionWaterfallLayout.h; sourceTree = "<group>"; };
 		357505871E288580000E62EA /* CollectionWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionWaterfallLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +114,9 @@
 				351D88C51E288490004FEBD6 /* AppDelegate.m */,
 				351D88C71E288490004FEBD6 /* ViewController.h */,
 				351D88C81E288490004FEBD6 /* ViewController.m */,
+				3551827D1E49CEE7007F4477 /* WFHeaderView.h */,
+				3551827E1E49CEE7007F4477 /* WFHeaderView.m */,
+				3551827F1E49CEE7007F4477 /* WFHeaderView.xib */,
 				351D88CA1E288490004FEBD6 /* Main.storyboard */,
 				351D88CD1E288490004FEBD6 /* Assets.xcassets */,
 				351D88CF1E288490004FEBD6 /* LaunchScreen.storyboard */,
@@ -263,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				351D88D11E288490004FEBD6 /* LaunchScreen.storyboard in Resources */,
+				355182831E49CEE7007F4477 /* WFHeaderView.xib in Resources */,
 				351D88CE1E288490004FEBD6 /* Assets.xcassets in Resources */,
 				351D88CC1E288490004FEBD6 /* Main.storyboard in Resources */,
 			);
@@ -292,6 +301,7 @@
 				351D88C91E288490004FEBD6 /* ViewController.m in Sources */,
 				351D88C61E288490004FEBD6 /* AppDelegate.m in Sources */,
 				357505881E288580000E62EA /* CollectionWaterfallLayout.m in Sources */,
+				355182821E49CEE7007F4477 /* WFHeaderView.m in Sources */,
 				351D88C31E288490004FEBD6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

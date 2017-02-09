@@ -25,7 +25,7 @@ extern NSString *const kSupplementaryViewKindHeader;
 
 @protocol CollectionWaterfallLayoutProtocol <NSObject>
 
-- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 - (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForSupplementaryViewAtIndexPath:(NSIndexPath *)indexPath;
 

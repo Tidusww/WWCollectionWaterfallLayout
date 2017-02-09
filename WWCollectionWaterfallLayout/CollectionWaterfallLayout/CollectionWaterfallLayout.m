@@ -134,7 +134,10 @@ CGFloat const kSupplementaryViewKindHeaderPinnedHeight = 44.f;
 {
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
     //外部返回Item高度
-    CGFloat itemHeight = [self.delegate collectionViewLayout:self heightForRowAtIndexPath:indexPath];
+    CGFloat itemHeight = [self.delegate collectionViewLayout:self heightForItemAtIndexPath:indexPath];
+    
+    //headerView高度
+    CGFloat headerHeight = [self.delegate collectionViewLayout:self heightForSupplementaryViewAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     
     //找出所有列中高度最小的
     NSInteger columnIndex = [self columnOfLessHeight];
@@ -144,7 +147,7 @@ CGFloat const kSupplementaryViewKindHeaderPinnedHeight = 44.f;
     CGFloat width = (self.collectionView.bounds.size.width-(_insets.left+_insets.right)-_columnSpacing*(_columns-1)) / _columns;
     CGFloat height = itemHeight;
     CGFloat x = _insets.left+(width+_columnSpacing)*columnIndex;
-    CGFloat y = lessHeight==0 ? _insets.top+lessHeight : lessHeight+_itemSpacing;
+    CGFloat y = lessHeight==0 ? headerHeight+_insets.top : lessHeight+_itemSpacing;
     attributes.frame = CGRectMake(x, y, width, height);
     
     //更新列高度

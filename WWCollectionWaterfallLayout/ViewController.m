@@ -89,7 +89,7 @@ static NSString *const kCollectionViewHeaderReusableID = @"kCollectionViewHeader
         _waterfallLayout.delegate = self;
         _waterfallLayout.columns = 2;
         _waterfallLayout.columnSpacing = 10;
-        _waterfallLayout.insets = UIEdgeInsetsMake(5, 10, 5, 10);
+        _waterfallLayout.insets = UIEdgeInsetsMake(10, 10, 10, 10);
         
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-StatusBarHeight-NavigationBarHeight) collectionViewLayout:_waterfallLayout];
         _collectionView.delegate = self;
@@ -144,7 +144,7 @@ static NSString *const kCollectionViewHeaderReusableID = @"kCollectionViewHeader
 }
 
 #pragma mark - CollectionWaterfallLayoutProtocol
-- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)collectionViewLayout:(CollectionWaterfallLayout *)layout heightForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = indexPath.row;
     CGFloat cellHeight = [_dataList[row] floatValue];
